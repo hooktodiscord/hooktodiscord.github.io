@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HookToDiscord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <div id="content">
+        <h1>HookToDiscord</h1>
+        <h2>Mass WebHook Tool</h2>
+        <button class="button" onclick="openModal()">Start Mass Sending</button>
+        <div id="myModal" class="modal">
+            <button class="closeButton" onclick="closeModal()">X</button>
+            <label for="webhookUrl">Webhook URL:</label><br><br>
+            <input type="text" id="webhookUrl" placeholder="Enter your webhook URL"><br><br>
+            <button onclick="sendMultipleMessages()" class="button">Send 5 Messages</button><br><br>
+        </div>
+    </div>
+    <script>
+        function sendMessage(webhookUrl, message) {
+            const data = {
+                content: message,
+            };
+
+            return fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+        }
+
+        function sendMultipleMessages() {
+            const webhookUrl = document.getElementById("webhookUrl").value;
+
+
+            for (let i = 0; i < 5; i++) {
+                sendMessage(webhookUrl, `Bro, just nuk3d by HookToDiscord @everyone ( https://hooktodiscord.github.io )`)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(`Message ${i + 1} sent:`, result);
+                    })
+                    .catch(error => {
+                        console.log(`Error sending message ${i + 1}`, error);
+                    });
+            }
+        }
+
+
+
+
+
+        function openModal() {
+            const modal = document.getElementById("myModal");
+            const overlay = document.getElementById("modalOverlay");
+
+            modal.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("myModal");
+            const overlay = document.getElementById("modalOverlay");
+
+            modal.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        closeModal()
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="script-bg.js"></script>
+</body>
+</html>
